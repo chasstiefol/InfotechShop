@@ -1,0 +1,136 @@
+.brand,
+.brand:link,
+.brand:hover,
+.brand:active {
+  color: #364f6d;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.home,
+.home:hover,
+.home:active,
+.home:link {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.navbar-content {
+  background-color: white;
+  overflow: hidden;
+}
+
+.navbar-content-home {
+  background-color: #364f6d;
+  overflow: hidden;
+}
+
+main {
+  background-color: white;
+  overflow: hidden;
+}
+
+h2 {
+  color: white;
+  font-weight: bold;
+}
+
+.page-color {
+  background-color: #364f6d;
+  overflow: hidden;
+}
+
+.page-home {
+  background-color: white;
+  overflow: hidden;
+}
+
+.form-signup {
+  margin-top: 1cm;
+  background-color: white;
+  margin-bottom: 0.75cm;
+}
+
+.signup-form {
+  color: black;
+}
+
+.btn-form {
+  background-color: #36506b;
+}
+
+.btn-form1 {
+  background-color: #f14436;
+}
+
+a {
+  color: #36506b;
+  text-decoration: none;
+}
+
+a:hover,
+a:active,
+a:link {
+  text-decoration: none;
+  color: #1f2e3d;
+}
+
+.btn-icon {
+  padding-right: 4cm;
+}
+
+.cart {
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+.hot-product {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.product-content {
+  background-color: #36506b;
+  border-radius: 5px;
+  border: 2px solid white;
+}
+
+.btn-product {
+  background-color: #5b6d83 !important;
+  border: none !important;
+}
+
+.btn-product:hover {
+  background-color: #49596d !important;
+}
+
+.btn-tambah {
+  background-color: #407bc4 !important;
+  border: none !important;
+}
+
+.btn-tambah:hover {
+  background-color: #336097 !important;
+  border: none !important;
+}
+
+.cart-list {
+  border-radius: 5px;
+  border: 2px solid cyan;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.add-to-cart-button {
+  background-color: #364f6d;
+}
+
+.add-to-cart-button:hover {
+  background-color: #1f2e3d;
+}
