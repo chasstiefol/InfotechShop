@@ -106,7 +106,9 @@ const Signup = () => {
                   {product.namaProduk}
                 </Link>
                 <h6>
-                  <b>Rp {product.harga}</b>
+                  <b>
+                    Rp <span style={{ letterSpacing: 1 }}>{product.harga}</span>
+                  </b>
                 </h6>
               </div>
             ))

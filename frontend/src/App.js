@@ -15,7 +15,7 @@ const App = () => {
         <Route path='/Login' component={LoginScreen}></Route>
         <Route path='/AddProduct' component={ProductScreen}></Route>
         <Route path='/Product/:id' component={ProductDetailScreen}></Route>
-        <Route path='/Cart' component={CartScreen}></Route>
+        <Route path='/cart' component={CartScreen}></Route>
       </Switch>
     </Router>
   )
