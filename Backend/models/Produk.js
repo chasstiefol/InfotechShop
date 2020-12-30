@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const reviewSchema = mongoose.Schema({
   pengguna: {
@@ -38,7 +39,6 @@ const produkSchema = mongoose.Schema({
   },
   idProduk: {
     type: Number,
-    required: true,
     unique: true,
   },
   namaProduk: {
@@ -50,7 +50,7 @@ const produkSchema = mongoose.Schema({
     required: true,
   },
   gambar: {
-    type: String,
+    type: [],
   },
   reviews: [reviewSchema],
   kategori: {
@@ -75,8 +75,13 @@ const produkSchema = mongoose.Schema({
     type: Number, 
     required: true,
     default: 0
+  },
+  tanggalDibuat: {
+    type: String, 
+    default: Date,
   }
 
 });
 
+produkSchema.plugin(AutoIncrement, {start_seq: 15, inc_field: 'idProduk'})
 module.exports = mongoose.model("Produk", produkSchema, "Produk");
