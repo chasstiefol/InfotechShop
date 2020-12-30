@@ -14,11 +14,13 @@ import {
 } from 'react-bootstrap'
 import { logout } from '../actions/userActions'
 import { listProductDetails } from '../actions/productActions'
+import { addToCart } from '../actions/cartActions'
 import Loader from '../Component/Loader'
+import Rating from '../Component/Rating'
 import { BsSearch, BsBag, BsFillPersonFill } from 'react-icons/bs'
 import { FaStore } from 'react-icons/fa'
 
-const ProductDetailScreen = ({ match }) => {
+const ProductDetailScreen = ({ match, history }) => {
   const dispatch = useDispatch()
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -34,6 +36,15 @@ const ProductDetailScreen = ({ match }) => {
   useEffect(() => {
     dispatch(listProductDetails(match.params.id))
   }, [match, dispatch])
+
+  const cartHandler = (id) => {
+    if (!userInfo) {
+      history.push('/Login')
+    } else {
+      dispatch(addToCart(id, 1))
+      history.push('/cart')
+    }
+  }
 
   return (
     <Container className='p-0' fluid>
@@ -102,6 +113,7 @@ const ProductDetailScreen = ({ match }) => {
               )}
               <Button
                 className='rounded-0 border-0 px-4 font-weight-bold add-to-cart-button'
+                onClick={() => cartHandler(product._id)}
                 disabled={!product.jumlahStok}
               >
                 Add To Cart
@@ -116,6 +128,32 @@ const ProductDetailScreen = ({ match }) => {
               <p className='py-4 text-justify font-weight-bold'>
                 {product.deskripsi}
               </p>
+            </Col>
+          </Row>
+          <Row className='p-4' style={{ maxWidth: '100%' }}>
+            <Col>
+              <h4 className='font-weight-bold' style={{ color: '#364f6d' }}>
+                Review
+              </h4>
+              {product.reviews && product.reviews.length === 0 ? (
+                <h4>Tidak ada Review</h4>
+              ) : (
+                product.reviews &&
+                product.reviews.map((review) => (
+                  <Row>
+                    <Col sm={2} className='p-3'>
+                      <Image src={review.avatar} style={{ width: '2rem' }} />
+                      <span className='pl-2 font-weight-bold'>
+                        {review.nama}
+                      </span>
+                    </Col>
+                    <Col sm={10} className='p-3'>
+                      <Rating value={1} color='yellow' />
+                      <p className='font-weight-bold'>{review.review}</p>
+                    </Col>
+                  </Row>
+                ))
+              )}
             </Col>
           </Row>
         </React.Fragment>

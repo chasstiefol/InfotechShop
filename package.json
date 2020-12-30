@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production node server",
-    "server": "nodemon server",
+    "server": "nodemon app",
     "client": "npm start --prefix frontend",
     "development": "concurrently \"npm run server\" \"npm run client\"",
     "dev": "cross-env NODE_ENV=develop nodemon server",
@@ -35,6 +35,7 @@
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
     "underscore": "^1.12.0",
+    "uuid": "^8.3.2",
     "v-response": "^1.1.0"
   },
   "devDependencies": {
