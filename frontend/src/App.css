@@ -134,3 +134,43 @@ body {
 .add-to-cart-button:hover {
   background-color: #1f2e3d;
 }
+
+.produk {
+  border-radius: 8px;
+  border: 3px solid #3a96ff;
+  background-color: white;
+}
+
+ListGroup {
+  border: none !important;
+}
+
+.shipping-page {
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.nav-checkout {
+  background-color: whitesmoke;
+  border-radius: 5px;
+}
+
+.keterangan {
+  background-color: white;
+}
+
+.place-page {
+  background-color: white !important;
+}
+
+.payment-button {
+  background-color: #36506b !important;
+  text-decoration: none !important;
+}
+
+.payment-button:hover,
+.payment-button:hover:link,
+.payment-button:hover:active {
+  background-color: #243547 !important;
+}
