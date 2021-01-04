@@ -174,3 +174,15 @@ ListGroup {
 .payment-button:hover:active {
   background-color: #243547 !important;
 }
+
+.orderlist-page {
+  background-color: white;
+  border-radius: 5px;
+  border: 3px solid black;
+}
+
+.userlist-page {
+  background-color: white;
+  border-radius: 5px;
+  border: 3px solid black;
+}
