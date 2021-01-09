@@ -41,7 +41,6 @@ cloudinary.config({
 router.post('/upload', upload.single('gambar'), async (req, res) => {
   try {
     const { path } = req.file
-
     const newPath = await cloudinary.uploader.upload(path)
     res.json(newPath)
   } catch (error) {

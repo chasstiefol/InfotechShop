@@ -9,7 +9,7 @@ const tambahProduk = asyncHandler(async (req, res, next) => {
   // const files = req.files
 
   try {
-    let urls = [];
+    let urls = []
     // let berkas = async (path) => await upload(path)
     // for (const file of files) {
     //   const { path } = file
@@ -21,7 +21,7 @@ const tambahProduk = asyncHandler(async (req, res, next) => {
 
     if (urls) {
       // let body = req.body;
-      let pengguna = await Akun.findById(req.user._id).select("-password");
+      let pengguna = await Akun.findById(req.user._id).select('-password')
       // let bodyw = _.extend(body, { pengguna: pengguna }, { gambar: urls });
 
       let produk = new Produk({
@@ -29,26 +29,26 @@ const tambahProduk = asyncHandler(async (req, res, next) => {
         namaProduk: req.body.namaProduk,
         deskripsi: req.body.deskripsi,
         kategori: req.body.kategori,
-        gambar: urls,
+        gambar: req.body.gambar,
         merk: req.body.merk,
         jumlahStok: req.body.jumlahStok,
         harga: req.body.harga,
-      });
+      })
       await produk
         .save()
         .then((saved) => {
-          return res.json(saved);
+          return res.json(saved)
         })
         .catch((error) => {
-          return res.json(error);
-        });
+          return res.json(error)
+        })
     }
   } catch (error) {
-    res.status(400);
-    console.log("error: ", error);
-    return next(error);
+    res.status(400)
+    console.log('error: ', error)
+    return next(error)
   }
-});
+})
 
 const tampilkanSeluruhProduk = asyncHandler(async (req, res) => {
   const produk = await Produk.find({}).lean()
