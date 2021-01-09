@@ -10,6 +10,8 @@ const {
   hapusReview,
 } = require('../controller/controllerProduk')
 const { pelindung } = require('../middleware/validasi')
+const cloudinary = require('cloudinary').v2
+const { uploads } = require('../helper/helper')
 
 let storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -30,12 +32,23 @@ let upload = multer({
   },
 })
 
-router.post(
-  '/tambah-produk',
-  pelindung,
-  upload.array('gambar', 5),
-  tambahProduk
-)
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
+router.post('/upload', upload.single('gambar'), async (req, res) => {
+  try {
+    const { path } = req.file
+    const newPath = await cloudinary.uploader.upload(path)
+    res.json(newPath)
+  } catch (error) {
+    res.status(400)
+    throw new Error(error)
+  }
+})
+router.post('/tambah-produk', pelindung, tambahProduk)
 router.route('/').get(tampilkanSeluruhProduk)
 router.route('/:id').get(tampilkanSatuProduk).delete(hapusProduk)
 router.route('/:id/reviews').post(pelindung, tambahReview)

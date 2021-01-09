@@ -78,7 +78,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
@@ -102,7 +102,15 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 }
 
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (
+  namaProduk,
+  deskripsi,
+  kategori,
+  gambar,
+  merk,
+  jumlahStok,
+  harga
+) => async (dispatch, getState) => {
   try {
     dispatch({
       type: PRODUCT_CREATE_REQUEST,
@@ -118,7 +126,11 @@ export const createProduct = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.post(`/api/products`, {}, config)
+    const { data } = await axios.post(
+      `/api/produk/tambah-produk`,
+      { namaProduk, deskripsi, kategori, gambar, merk, jumlahStok, harga },
+      config
+    )
 
     dispatch({
       type: PRODUCT_CREATE_SUCCESS,

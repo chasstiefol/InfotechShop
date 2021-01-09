@@ -22,16 +22,19 @@ const tambahProduk = asyncHandler(async (req, res, next) => {
     if (urls) {
       // let body = req.body;
       let pengguna = await Akun.findById(req.user._id).select('-password')
-      const nama = pengguna.nama
       // let bodyw = _.extend(body, { pengguna: pengguna }, { gambar: urls });
-      let new_konten = new Konten({
+
+      let produk = new Produk({
         pengguna: pengguna,
-        judul: req.body.judul,
-        postingan: req.body.postingan,
+        namaProduk: req.body.namaProduk,
+        deskripsi: req.body.deskripsi,
         kategori: req.body.kategori,
         gambar: req.body.gambar,
+        merk: req.body.merk,
+        jumlahStok: req.body.jumlahStok,
+        harga: req.body.harga,
       })
-      await new_konten
+      await produk
         .save()
         .then((saved) => {
           return res.json(saved)
@@ -39,15 +42,6 @@ const tambahProduk = asyncHandler(async (req, res, next) => {
         .catch((error) => {
           return res.json(error)
         })
-      const aktifitas = await Aktifitas.create({
-        pengguna: pengguna,
-        pesan: `${nama} telah mengupload konten`,
-      })
-
-      if (aktifitas) {
-        res.status(200)
-        console.log(aktifitas)
-      }
     }
   } catch (error) {
     res.status(400)

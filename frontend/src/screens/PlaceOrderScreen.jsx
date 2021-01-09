@@ -63,26 +63,29 @@ const PlaceOrderScreen = ({ history }) => {
 
   return (
     <>
-    <FormContainer>
-      <div className="place-page p-3 shipping-page">
-      <CheckoutSteps step1 step2 step3 step4 />
+      <FormContainer>
+        <div className='place-page p-3 shipping-page'>
+          <CheckoutSteps step1 step2 step3 step4 />
           <FormGroup variant='flush'>
-            <div className="keterangan">
-              <h2 className="text-center font-weight-bold text-dark mb-3">Data Pembelian</h2>
-              <h5 className="text-dark font-weight-bold">Pengiriman</h5>
+            <div className='keterangan'>
+              <h2 className='text-center font-weight-bold text-dark mb-3'>
+                Data Pembelian
+              </h2>
+              <h5 className='text-dark font-weight-bold'>Pengiriman</h5>
               <p>
-                <div>Alamat:  
-                {' '}{cart.shippingAddress.address},{' '}{cart.shippingAddress.kecamatan},
-                {' '}{cart.shippingAddress.city},
-                {' '}{cart.shippingAddress.postalCode},{' '}
-                {cart.shippingAddress.provinsi}</div>
+                <div>
+                  Alamat: {cart.shippingAddress.address},{' '}
+                  {cart.shippingAddress.kecamatan}, {cart.shippingAddress.city},{' '}
+                  {cart.shippingAddress.postalCode},{' '}
+                  {cart.shippingAddress.provinsi}
+                </div>
               </p>
 
-              <h5 className="text-dark font-weight-bold">Pembayaran</h5>
-              <div>Metode: 
-              {' '}{cart.paymentMethod}
-              </div>
-              <h5 className="text-dark font-weight-bold mt-3 mb-3">Barang yang akan Dibeli</h5>
+              <h5 className='text-dark font-weight-bold'>Pembayaran</h5>
+              <div>Metode: {cart.paymentMethod}</div>
+              <h5 className='text-dark font-weight-bold mt-3 mb-3'>
+                Barang yang akan Dibeli
+              </h5>
               {cart.cartItems.length === 0 ? (
                 <Message>Your cart is empty</Message>
               ) : (
@@ -111,53 +114,53 @@ const PlaceOrderScreen = ({ history }) => {
                   ))}
                 </div>
               )}
-              </div>
+            </div>
           </FormGroup>
-          </div>
-          <div className="mt-3 shipping-page">
-          <Card className="p-3">
-              <div>
-                <h2 className="text-dark font-weight-bold text-center mb-3">Rincian Harga</h2>
-              </div>
-              <div>
-                <Row className="my-1">
-                  <Col>Items</Col>
-                  <Col>${cart.itemsPrice}</Col>
-                </Row>
-              </div>
-              <div>
-                <Row className="my-1">
-                  <Col>Shipping</Col>
-                  <Col>${cart.shippingPrice}</Col>
-                </Row>
-              </div>
-              <div>
-                <Row className="my-1">
-                  <Col>Tax</Col>
-                  <Col>${cart.taxPrice}</Col>
-                </Row>
-              </div>
-              <div>
-                <Row className="my-1">
-                  <Col>Total</Col>
-                  <Col>${cart.totalPrice}</Col>
-                </Row>
-              </div>
-              <div>
-                {error && <Message variant='danger'>{error}</Message>}
-              </div>
-              <div style={{display:"flex"}} className="mt-3 mb-1">
-                <Button
-                  type='button'
-                  className='btn-block payment-button mx-auto'
-                  disabled={cart.cartItems === 0}
-                  onClick={placeOrderHandler}
-                >
-                  Proses
-                </Button>
-              </div>
+        </div>
+        <div className='mt-3 shipping-page'>
+          <Card className='p-3'>
+            <div>
+              <h2 className='text-dark font-weight-bold text-center mb-3'>
+                Rincian Harga
+              </h2>
+            </div>
+            <div>
+              <Row className='my-1'>
+                <Col>Items</Col>
+                <Col>${cart.itemsPrice}</Col>
+              </Row>
+            </div>
+            <div>
+              <Row className='my-1'>
+                <Col>Shipping</Col>
+                <Col>${cart.shippingPrice}</Col>
+              </Row>
+            </div>
+            <div>
+              <Row className='my-1'>
+                <Col>Tax</Col>
+                <Col>${cart.taxPrice}</Col>
+              </Row>
+            </div>
+            <div>
+              <Row className='my-1'>
+                <Col>Total</Col>
+                <Col>${cart.totalPrice}</Col>
+              </Row>
+            </div>
+            <div>{error && <Message variant='danger'>{error}</Message>}</div>
+            <div style={{ display: 'flex' }} className='mt-3 mb-1'>
+              <Button
+                type='button'
+                className='btn-block payment-button mx-auto'
+                disabled={cart.cartItems === 0}
+                onClick={placeOrderHandler}
+              >
+                Proses
+              </Button>
+            </div>
           </Card>
-          </div>
+        </div>
       </FormContainer>
     </>
   )
