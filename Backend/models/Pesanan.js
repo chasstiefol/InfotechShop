@@ -1,99 +1,109 @@
 const mongoose = require("mongoose");
 
-const pesananSchema = mongoose.Schema({
-  pembeli: {
-    pengguna: {
+const pesananSchema = mongoose.Schema(
+  {
+    pembeli: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Akun",
     },
-    nama: {
+    namaPembeli: {
       type: String,
       required: true,
       max: 255,
       min: 6,
     },
-      email: {
+    emailPembeli: {
       type: String,
       required: true,
       max: 255,
       min: 6,
     },
     avatar: {
-      type: String, 
+      type: String,
+    },
+    barangPesanan: [
+      {
+        namaProduk: {
+          type: String,
+          required: true,
+        },
+        jumlahPembelian: {
+          type: Number,
+          required: true,
+        },
+        gambar: {
+          type: [],
+        },
+        harga: {
+          type: Number,
+          required: true,
+        },
+        produk: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "Produk",
+        },
       },
-  },
-  
-  alamatPengiriman: {
-    namaPenerima: {
+    ],
+    alamatPengiriman: {
+      namaPenerima: {
+        type: String,
+      },
+      alamat: {
+        type: String,
+      },
+      kabupaten: {
+        type: String,
+        required: true,
+      },
+      kecamatan: {
+        type: String,
+        required: true,
+      },
+      kelurahan: {
+        type: String,
+        required: true,
+      },
+      kodepos: {
+        type: Number,
+        default: 0,
+      },
+      noHP: {
+        type: Number,
+        default: 0,
+      },
+    },
+    metodePembayaran: {
       type: String,
     },
-    alamat: {
-      type: String,
-    },
-    kabupaten:{
-      type: String,
-      required: true,
-    },
-    kecamatan: {
-      type: String, 
-      required: true,
-    },
-    kelurahan: {
-      type: String,
-      required: true,
-    },
-    kodepos: {
+    ongkir: {
       type: Number,
-      default: 0,
     },
-    noHP: {
+    totalPembayaran: {
       type: Number,
-      default: 0,
     },
-  },
-  cartID: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: "Cart",
-  },
-    namaProduk: {
+    sudahBayar: {
+      type: Boolean,
+      default: false,
+    },
+    tanggalBayar: {
+      type: Date,
+    },
+    sudahDikirim: {
+      type: Boolean,
+      default: false,
+    },
+    tanggalDikirim: {
+      type: Date,
+    },
+    kodePembayaran: {
       type: String,
       required: true,
+      unique: true,
     },
-    gambar: {
-      type: String,
-    },
-    harga: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-  jumlahPesanan: {
-    type: Number, 
-    required: true,
-    default: 1
   },
-  metodePembayaran: {
-    type: String,
-  },
-  sudahBayar: {
-    type: Boolean,
-    default: false,
-  },
-  sudahDikirim: {
-    type: Boolean,
-    default: false,
-  },
-  statusPesanan: {
-    type: String,
-  },
-  kodePembayaran: {
-    type: Number,
-    required: true,
-    unique: true,
-  }
-
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Pesanan", pesananSchema, "Pesanan");
