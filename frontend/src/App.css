@@ -229,3 +229,22 @@ ListGroup {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   color: black;
 }
+
+.product-list {
+  background-color: white;
+  border-radius: 5px;
+  border: 2px solid blue;
+}
+
+.product-head {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.button-product-list {
+  border: none;
+}
+
+.product-edit {
+  border: 2px solid white !important;
+  border-radius: 10px !important;
+}
