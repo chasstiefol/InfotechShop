@@ -216,6 +216,11 @@ const OrderScreen = ({ match, history }) => {
                   </p>
                   <p>
                     <MdPayment size='20px' className='m-0' />
+                    <strong className='m-2'>Kode Pembayaran: </strong>
+                    {order.kodePembayaran.split('u')[0]}
+                  </p>
+                  <p>
+                    <MdPayment size='20px' className='m-0' />
                     <strong className='m-2'>Status Pembayaran: </strong>
                     {order.sudahBayar ? (
                       <Badge variant='success'>Sudah dibayar</Badge>
@@ -283,6 +288,17 @@ const OrderScreen = ({ match, history }) => {
                 <ImPriceTag className='mt-1 ml-2' />
                 <Col>Total: </Col>
                 <Col>Rp. {order.totalPembayaran}</Col>
+              </Row>
+              <Row className='pl-4'>
+                <Form>
+                  <Form.Group>
+                    <Form.Label>Upload Bukti Pembayaran</Form.Label>
+                    <Form.File />
+                    <Button className='mt-4' type='submit'>
+                      Submit
+                    </Button>
+                  </Form.Group>
+                </Form>
               </Row>
               {/* {!order.isPaid && (
                 <ListGroup.Item>

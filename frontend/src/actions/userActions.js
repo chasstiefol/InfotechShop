@@ -127,7 +127,7 @@ export const updateProfil = (nama, email) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.put(
-      '/api/user/update-profil',
+      '/api/user/update',
       { nama, email },
       config
     )
