@@ -7,6 +7,10 @@ const buktiSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Akun",
   },
+  pesanan: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Pesanan",
+  },
   nama: {
     type: String,
   },
