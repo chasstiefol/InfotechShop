@@ -23,7 +23,7 @@ const ShippingScreen = ({ history }) => {
     dispatch(
       saveShippingAddress({ provinsi, city, kecamatan, postalCode, address })
     )
-    history.push('/pembayaran')
+    history.push('/payment')
   }
 
   return (

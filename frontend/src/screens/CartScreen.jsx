@@ -78,7 +78,7 @@ const CartScreen = ({ match, location, history }) => {
           </NavLink>
           {userInfo ? (
             <>
-              <NavLink className='cart' href='/Signup'>
+              <NavLink className='cart' href='/profile'>
                 <BsFillPersonFill className='mb-1 mr-2' />
                 {userInfo.nama}
               </NavLink>
@@ -103,6 +103,12 @@ const CartScreen = ({ match, location, history }) => {
         </Message>
       ) : (
         <>
+          {cartItems && (
+            <h4 className='text-right mr-4 my-3'>
+              Total Harga: Rp.
+              {cartItems.reduce((acc, cur) => acc + cur.harga * cur.qty, 0)}
+            </h4>
+          )}
           <ListGroup className='cart-list mb-2'>
             {cartItems &&
               cartItems.map((item) => (
@@ -161,7 +167,11 @@ const CartScreen = ({ match, location, history }) => {
               className='cart-list p-2 float-right'
               style={{ width: '15rem' }}
             >
-              <Button variant='warning' className='font-weight-bold text-white'>
+              <Button
+                variant='warning'
+                className='font-weight-bold text-white'
+                onClick={() => history.push('/shipping')}
+              >
                 Proceed To Checkout
               </Button>
             </Card>

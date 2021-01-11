@@ -7,6 +7,8 @@ import ProductDetailScreen from './screens/ProductDetailScreen'
 import ShippingScreen from './screens/ShippingScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import PaymentScreen from './screens/PaymentScreen'
+import ProfileScreen from './screens/ProfileScreen'
 
 const App = () => {
   return (
@@ -19,7 +21,9 @@ const App = () => {
         <Route path='/Product/:id' component={ProductDetailScreen}></Route>
         <Route path='/cart' component={CartScreen}></Route>
         <Route path='/shipping' component={ShippingScreen}></Route>
+        <Route path='/payment' component={PaymentScreen}></Route>
         <Route path='/place-order' component={PlaceOrderScreen}></Route>
+        <Route path='/profile' component={ProfileScreen}></Route>
       </Switch>
     </Router>
   )

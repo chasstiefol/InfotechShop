@@ -71,7 +71,7 @@ const Signup = () => {
             </NavLink>
             {userInfo ? (
               <>
-                <NavLink className='cart' href='/Signup'>
+                <NavLink className='cart' href='/profile'>
                   <BsFillPersonFill className='mb-1 mr-2' />
                   {userInfo.nama}
                 </NavLink>

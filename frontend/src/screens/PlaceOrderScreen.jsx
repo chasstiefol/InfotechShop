@@ -14,26 +14,15 @@ const PlaceOrderScreen = ({ history }) => {
 
   const cart = useSelector((state) => state.cart)
 
-  // if (!cart.shippingAddress.address) {
-  //   history.push('/shipping')
-  // } else if (!cart.paymentMethod) {
-  //   history.push('/payment')
-  // }
-  //   Calculate prices
-  const addDecimals = (num) => {
-    return (Math.round(num * 100) / 100).toFixed(2)
-  }
+  useEffect(() => {
+    if (!cart.shippingAddress.address) {
+      history.push('/shipping')
+    } else if (!cart.paymentMethod) {
+      history.push('/payment')
+    }
+  }, [cart, history])
 
-  cart.itemsPrice = addDecimals(
-    cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-  )
-  cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100)
-  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)))
-  cart.totalPrice = (
-    Number(cart.itemsPrice) +
-    Number(cart.shippingPrice) +
-    Number(cart.taxPrice)
-  ).toFixed(2)
+  //   Calculate prices
 
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
@@ -90,24 +79,25 @@ const PlaceOrderScreen = ({ history }) => {
                 <Message>Your cart is empty</Message>
               ) : (
                 <div>
-                  {cart.cartItems.map((item, index) => (
-                    <div key={index}>
+                  {cart.cartItems.map((item) => (
+                    <div key={item._id}>
                       <Row>
                         <Col md={1}>
                           <Image
-                            src={item.image}
-                            alt={item.name}
+                            src={item.gambar}
+                            alt={item.namaProduk}
                             fluid
                             rounded
                           />
                         </Col>
                         <Col>
-                          <Link to={`/product/${item.product}`}>
-                            {item.name}
+                          <Link to={`/Product/${item._id}`}>
+                            {item.namaProduk}
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          {item.qty} x Rp. {item.harga} = Rp.{' '}
+                          {Number(item.qty * item.harga)}
                         </Col>
                       </Row>
                     </div>
