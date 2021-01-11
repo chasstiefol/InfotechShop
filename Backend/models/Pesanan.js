@@ -28,7 +28,7 @@ const pesananSchema = mongoose.Schema(
           type: String,
           required: true,
         },
-        qty: {
+        jumlahPembelian: {
           type: Number,
           required: true,
         },
@@ -103,6 +103,10 @@ const pesananSchema = mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    buktiBayar: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bukti",
     },
   },
   { timestamps: true }
