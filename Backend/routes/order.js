@@ -8,6 +8,8 @@ const {
   updatePesananDikirim,
   pesananSaya,
   buktiBayar,
+  cariBukti,
+  seluruhBukti,
 } = require("../controller/controllerCheckout");
 const { pelindung } = require("../middleware/validasi");
 const cloudinary = require("cloudinary").v2;
@@ -54,5 +56,7 @@ router.route("/:id").get(pelindung, detailPesanan);
 router.route("/:id/bayar").put(pelindung, updatePesananDibayar);
 router.route("/:id/dikirim"), put(pelindung, updatePesananDikirim);
 router.route("/pesanan-saya").get(pelindung, pesananSaya);
+router.route("/bukti").get(seluruhBukti);
+router.route("/bukti/:id").get(cariBukti);
 
 module.exports = router;
