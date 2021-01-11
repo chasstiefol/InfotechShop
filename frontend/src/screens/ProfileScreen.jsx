@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
+  Badge,
   Form,
   Button,
   Row,
@@ -9,11 +10,14 @@ import {
   NavLink,
   FormControl,
   Nav,
+  Table,
 } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../Component/Message'
 import Loader from '../Component/Loader'
 import { updateProfil, logout } from '../actions/userActions'
+import { listMyOrders } from '../actions/orderActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants'
 import { BsFillPersonFill, BsBag, BsSearch } from 'react-icons/bs'
 import { FaStore } from 'react-icons/fa'
@@ -52,8 +56,12 @@ const ProfileScreen = ({ location, history }) => {
     }
   }, [dispatch, success])
 
-  // const orderListMy = useSelector((state) => state.orderListMy)
-  // const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+  const orderListMy = useSelector((state) => state.orderListMy)
+  const { loading: loadingOrders, error: errorOrders, orders } = orderListMy
+
+  useEffect(() => {
+    dispatch(listMyOrders())
+  }, [dispatch])
 
   // useEffect(() => {
   //   if (!userInfo) {
@@ -181,7 +189,7 @@ const ProfileScreen = ({ location, history }) => {
           </Row>
         </Col>
       </Row>
-      {/* <Row>
+      <Row>
         <Col md={12} className='mt-3 mb-3 profile-screen'>
           <h2 className='text-center font-weight-bold text-dark my-3'>
             Pesanan Saya
@@ -197,30 +205,39 @@ const ProfileScreen = ({ location, history }) => {
                   <th>ID</th>
                   <th>PRODUK</th>
                   <th>TOTAL</th>
-                  <th>PENGIRIMAN</th>
-                  <th>HAPUS</th>
+                  <th>STATUS</th>
+                  <th>DETAIL</th>
                 </tr>
               </thead>
               <tbody>
                 {orders.map((order) => (
                   <tr key={order._id}>
                     <td>{order._id}</td>
-                    <td>{order.createdAt.substring(0, 10)}</td>
-                    <td>{order.totalPrice}</td>
                     <td>
-                      {order.isDelivered ? (
-                        order.deliveredAt.substring(0, 10)
+                      {order.barangPesanan.length === 1 ? (
+                        order.barangPesanan[0].namaProduk
                       ) : (
-                        <i
-                          className='fas fa-times'
-                          style={{ color: 'red' }}
-                        ></i>
+                        <ul className='px-3'>
+                          {order.barangPesanan.map((x) => (
+                            <li key={x._id}>{x.namaProduk}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </td>
+                    <td>Rp. {order.totalPembayaran}</td>
+                    <td>
+                      {!order.sudahBayar ? (
+                        <Badge variant='danger'>Belum dibayar</Badge>
+                      ) : order.sudahDikirim ? (
+                        <Badge variant='primary'>Sudah dikirim</Badge>
+                      ) : (
+                        <Badge variant='success'>Sudah dibayar</Badge>
                       )}
                     </td>
                     <td>
                       <LinkContainer to={`/order/${order._id}`}>
                         <Button className='btn-sm' variant='secondary'>
-                          Details
+                          Lihat Detail
                         </Button>
                       </LinkContainer>
                     </td>
@@ -230,7 +247,7 @@ const ProfileScreen = ({ location, history }) => {
             </Table>
           )}
         </Col>
-      </Row> */}
+      </Row>
     </div>
   )
 }

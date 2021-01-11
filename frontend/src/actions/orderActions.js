@@ -22,7 +22,14 @@ import {
 } from '../constants/orderConstants'
 import { logout } from './userActions'
 
-export const createOrder = (order) => async (dispatch, getState) => {
+export const createOrder = (
+  barangPesanan,
+  alamatPengiriman,
+  metodePembayaran,
+  hargaBarang,
+  ongkir,
+  totalPembayaran
+) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
@@ -35,11 +42,22 @@ export const createOrder = (order) => async (dispatch, getState) => {
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
-    const { data } = await axios.post(`/api/orders`, order, config)
+    const { data } = await axios.post(
+      `/api/order`,
+      {
+        barangPesanan,
+        alamatPengiriman,
+        metodePembayaran,
+        hargaBarang,
+        ongkir,
+        totalPembayaran,
+      },
+      config
+    )
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -50,6 +68,8 @@ export const createOrder = (order) => async (dispatch, getState) => {
       payload: data,
     })
     localStorage.removeItem('cartItems')
+    localStorage.removeItem('shippingAddress')
+    localStorage.removeItem('paymentMethod')
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -77,11 +97,11 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
-    const { data } = await axios.get(`/api/orders/${id}`, config)
+    const { data } = await axios.get(`/api/order/${id}`, config)
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -200,11 +220,14 @@ export const listMyOrders = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
-    const { data } = await axios.get(`/api/orders/myorders`, config)
+    const { data } = await axios.get(
+      `/api/order/pesanan-saya/${userInfo._id}`,
+      config
+    )
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,

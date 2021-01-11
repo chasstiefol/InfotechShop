@@ -1,11 +1,27 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Row, Col, FormGroup, Image, Card } from 'react-bootstrap'
+import {
+  Button,
+  Row,
+  Col,
+  FormGroup,
+  Image,
+  Card,
+  Container,
+  Navbar,
+  NavLink,
+  FormControl,
+  Nav,
+  Form,
+} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../Component/Message'
 import FormContainer from '../Component/FormContainer'
 import CheckoutSteps from '../Component/CheckoutSteps'
 import { createOrder } from '../actions/orderActions'
+import { logout } from '../actions/userActions'
+import { BsFillPersonFill, BsBag, BsSearch } from 'react-icons/bs'
+import { FaStore } from 'react-icons/fa'
 import { ORDER_CREATE_RESET } from '../constants/orderConstants'
 import { USER_DETAILS_RESET } from '../constants/userConstants'
 
@@ -13,9 +29,12 @@ const PlaceOrderScreen = ({ history }) => {
   const dispatch = useDispatch()
 
   const cart = useSelector((state) => state.cart)
+  const { cartItems } = cart
+  const hargaBarang =
+    cartItems && cartItems.reduce((acc, cur) => acc + cur.harga * cur.qty, 0)
 
   useEffect(() => {
-    if (!cart.shippingAddress.address) {
+    if (!cart.shippingAddress) {
       history.push('/shipping')
     } else if (!cart.paymentMethod) {
       history.push('/payment')
@@ -27,33 +46,86 @@ const PlaceOrderScreen = ({ history }) => {
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
 
-  useEffect(() => {
-    if (success) {
-      history.push(`/order/${order._id}`)
-      dispatch({ type: USER_DETAILS_RESET })
-      dispatch({ type: ORDER_CREATE_RESET })
-    }
-    // eslint-disable-next-line
-  }, [history, success])
+  // useEffect(() => {
+  //   if (success) {
+  //     history.push(`/order/${order._id}`)
+  //     dispatch({ type: USER_DETAILS_RESET })
+  //     dispatch({ type: ORDER_CREATE_RESET })
+  //   }
+  //   // eslint-disable-next-line
+  // }, [history, success])
 
   const placeOrderHandler = () => {
     dispatch(
-      createOrder({
-        orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
-      })
+      createOrder(
+        cartItems,
+        cart.shippingAddress,
+        cart.paymentMethod,
+        hargaBarang,
+        3000,
+        hargaBarang + 3000
+      )
     )
+    history.push('/profile')
+  }
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  const logoutHandler = () => {
+    dispatch(logout())
+    history.push('/')
   }
 
   return (
-    <>
+    <Container className='p-0' fluid>
+      <Navbar className='navbar-content-home' variant='dark'>
+        <NavLink className='home' href='/'>
+          InfoTech Shop
+        </NavLink>
+        <Navbar.Collapse className='justify-content-center'>
+          <Form inline>
+            <FormControl
+              type='text'
+              placeholder='Search..'
+              className='form-control'
+            />
+            <Button variant='outline-light'>
+              <BsSearch />
+            </Button>
+          </Form>
+        </Navbar.Collapse>
+        <Nav className='justify-content-end'>
+          {userInfo && userInfo.admin && (
+            <NavLink className='cart' href='/product-list'>
+              <FaStore className='mb-1 mr-2' />
+              Daftar Produk
+            </NavLink>
+          )}
+          <NavLink className='cart' href='/cart'>
+            <BsBag className='mb-1 mr-2' />
+            CART
+          </NavLink>
+          {userInfo ? (
+            <>
+              <NavLink className='cart' href='/profile'>
+                <BsFillPersonFill className='mb-1 mr-2' />
+                {userInfo.nama}
+              </NavLink>
+              <Nav.Item as={NavLink} onClick={logoutHandler} className='cart'>
+                LOGOUT
+              </Nav.Item>
+            </>
+          ) : (
+            <NavLink className='cart' href='/Signup'>
+              <BsFillPersonFill className='mb-1 mr-2' />
+              SIGNUP
+            </NavLink>
+          )}
+        </Nav>
+      </Navbar>
       <FormContainer>
-        <div className='place-page p-3 shipping-page'>
+        <div className='place-page p-3 shipping-page mt-4'>
           <CheckoutSteps step1 step2 step3 step4 />
           <FormGroup variant='flush'>
             <div className='keterangan'>
@@ -116,26 +188,20 @@ const PlaceOrderScreen = ({ history }) => {
             </div>
             <div>
               <Row className='my-1'>
-                <Col>Items</Col>
-                <Col>${cart.itemsPrice}</Col>
+                <Col>Harga Barang</Col>
+                <Col>Rp. {hargaBarang}</Col>
               </Row>
             </div>
             <div>
               <Row className='my-1'>
-                <Col>Shipping</Col>
-                <Col>${cart.shippingPrice}</Col>
+                <Col>Ongkir</Col>
+                <Col>Rp. 3000</Col>
               </Row>
             </div>
             <div>
               <Row className='my-1'>
-                <Col>Tax</Col>
-                <Col>${cart.taxPrice}</Col>
-              </Row>
-            </div>
-            <div>
-              <Row className='my-1'>
-                <Col>Total</Col>
-                <Col>${cart.totalPrice}</Col>
+                <Col>Total Pembayaran</Col>
+                <Col>Rp. {hargaBarang + 3000}</Col>
               </Row>
             </div>
             <div>{error && <Message variant='danger'>{error}</Message>}</div>
@@ -152,7 +218,7 @@ const PlaceOrderScreen = ({ history }) => {
           </Card>
         </div>
       </FormContainer>
-    </>
+    </Container>
   )
 }
 

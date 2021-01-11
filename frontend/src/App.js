@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import PaymentScreen from './screens/PaymentScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ProductListScreen from './screens/ProductListScreen'
+import OrderScreen from './screens/OrderScreen'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/place-order' component={PlaceOrderScreen}></Route>
         <Route path='/product-list' component={ProductListScreen}></Route>
         <Route path='/profile' component={ProfileScreen}></Route>
+        <Route path='/order/:id' component={OrderScreen}></Route>
       </Switch>
     </Router>
   )
