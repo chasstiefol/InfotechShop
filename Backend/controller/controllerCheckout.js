@@ -123,10 +123,12 @@ const buktiBayar = asyncHandler(async (req, res) => {
     if (urls) {
       // let body = req.body;
       let pengguna = await Akun.findById(req.user._id).select("-password");
+      const pesan = await Pesanan.findOne({ pembeli: pengguna });
       // let bodyw = _.extend(body, { pengguna: pengguna }, { gambar: urls });
 
       let bukti = new Bukti({
         pengguna: pengguna,
+        pesanan: pesan,
         nama: pengguna.nama,
         email: pengguna.email,
         bukti: req.body.bukti,
