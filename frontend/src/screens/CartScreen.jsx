@@ -30,6 +30,12 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(logout())
   }
 
+  useEffect(() => {
+    if (!userInfo) {
+      history.push('/login')
+    }
+  }, [history, userInfo])
+
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
 
