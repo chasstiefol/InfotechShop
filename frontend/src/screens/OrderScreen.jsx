@@ -23,6 +23,8 @@ import {
   getOrderDetails,
   payOrder,
   deliverOrder,
+  sendReceipt,
+  getReceipt,
 } from '../actions/orderActions'
 import {
   ORDER_PAY_RESET,
@@ -48,9 +50,13 @@ const OrderScreen = ({ match, history }) => {
   const orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
 
+  const orderGetReceipt = useSelector((state) => state.orderGetReceipt)
+  const { receipt } = orderGetReceipt
+
   useEffect(() => {
     dispatch(getOrderDetails(orderId))
-  }, [dispatch, orderId])
+    dispatch(getReceipt(match.params.id))
+  }, [dispatch, orderId, match])
 
   // const orderPay = useSelector((state) => state.orderPay)
   // const { loading: loadingPay, success: successPay } = orderPay
@@ -101,6 +107,32 @@ const OrderScreen = ({ match, history }) => {
   //     }
   //   }
   // }, [dispatch, orderId, successPay, successDeliver, order])
+
+  const [image, setImage] = useState('')
+  const [uploading, setUploading] = useState(false)
+
+  const uploadHandler = async (e) => {
+    setUploading(true)
+
+    console.log(e.target.files)
+
+    const formData = new FormData()
+    formData.append('bukti', e.target.files[0])
+
+    await axios
+      .post('/api/order/bukti', formData)
+      .then((res) => {
+        setImage(res.data.url)
+      })
+      .catch((err) => console.log(err))
+
+    setUploading(false)
+  }
+
+  const submitHandler = (e) => {
+    e.preventDefault()
+    dispatch(sendReceipt(image))
+  }
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
@@ -290,11 +322,22 @@ const OrderScreen = ({ match, history }) => {
                 <Col>Rp. {order.totalPembayaran}</Col>
               </Row>
               <Row className='pl-4'>
-                <Form>
+                <Form onSubmit={submitHandler}>
                   <Form.Group>
                     <Form.Label>Upload Bukti Pembayaran</Form.Label>
-                    <Form.File />
-                    <Button className='mt-4' type='submit'>
+                    <Form.File onChange={(e) => uploadHandler(e)} />
+                    {uploading ? (
+                      <Loader />
+                    ) : (
+                      image && (
+                        <Image
+                          src={image}
+                          className='mt-3'
+                          style={{ width: '7rem' }}
+                        />
+                      )
+                    )}
+                    <Button className='mt-4 d-block' type='submit'>
                       Submit
                     </Button>
                   </Form.Group>

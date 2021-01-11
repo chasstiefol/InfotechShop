@@ -21,6 +21,12 @@ import {
   ORDER_DELIVER_REQUEST,
   ORDER_DELIVER_RESET,
   ORDER_CREATE_RESET,
+  ORDER_RECEIPT_FAIL,
+  ORDER_RECEIPT_REQUEST,
+  ORDER_RECEIPT_SUCCESS,
+  ORDER_GET_RECEIPT_REQUEST,
+  ORDER_GET_RECEIPT_SUCCESS,
+  ORDER_GET_RECEIPT_FAIL,
 } from '../constants/orderConstants'
 
 export const orderCreateReducer = (state = {}, action) => {
@@ -153,6 +159,50 @@ export const orderListReducer = (state = { orders: [] }, action) => {
         orders: action.payload,
       }
     case ORDER_LIST_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      }
+    default:
+      return state
+  }
+}
+
+export const orderReceiptReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_RECEIPT_REQUEST:
+      return {
+        loading: true,
+      }
+    case ORDER_RECEIPT_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        receipt: action.payload,
+      }
+    case ORDER_RECEIPT_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      }
+    default:
+      return state
+  }
+}
+
+export const orderGetReceiptReducer = (state = {}, action) => {
+  switch (action.type) {
+    case ORDER_GET_RECEIPT_REQUEST:
+      return {
+        loading: true,
+      }
+    case ORDER_GET_RECEIPT_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+        receipt: action.payload,
+      }
+    case ORDER_GET_RECEIPT_FAIL:
       return {
         loading: false,
         error: action.payload,

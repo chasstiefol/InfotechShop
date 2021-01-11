@@ -20,6 +20,8 @@ import {
   orderCreateReducer,
   orderListMyReducer,
   orderDetailsReducer,
+  orderReceiptReducer,
+  orderGetReceiptReducer,
 } from './reducers/orderReducers'
 import { cartReducer } from './reducers/cartReducers'
 
@@ -38,6 +40,8 @@ const reducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderListMy: orderListMyReducer,
   orderDetails: orderDetailsReducer,
+  orderReceipt: orderReceiptReducer,
+  orderGetReceipt: orderGetReceiptReducer,
   cart: cartReducer,
 })
 

@@ -1,3 +1,4 @@
+const Produk = require('../models/Produk')
 const asyncHandler = require('express-async-handler')
 const Akun = require('../models/Akun')
 const Pesanan = require('../models/Pesanan')
@@ -24,7 +25,7 @@ const tambahPesanan = asyncHandler(async (req, res) => {
     throw new Error('Barang tidak ditemukan')
     return
   } else {
-    const order = await Pesanan.create({
+    const order = new Pesanan({
       barangPesanan,
       pembeli: pembeli,
       namaPembeli: pembeli.nama,
@@ -38,13 +39,13 @@ const tambahPesanan = asyncHandler(async (req, res) => {
       kodePembayaran: kodePembayaran,
     })
 
-    res.status(201).json(order)
+    const buatPesanan = order.save()
+    res.status(201).json(buatPesanan)
   }
 })
 
 const detailPesanan = asyncHandler(async (req, res) => {
   const order = await Pesanan.findById(req.params.id)
-
   if (order) {
     res.status(200).json(order)
   } else {
@@ -84,12 +85,17 @@ const updatePesananDikirim = asyncHandler(async (req, res) => {
 })
 
 const pesananSaya = asyncHandler(async (req, res) => {
-  const pesanan = await Pesanan.find({ pembeli: req.params.id })
+  const pesanan = await Pesanan.find({ pembeli: req.user._id })
   res.json(pesanan)
 })
 
 const seluruhPesanan = asyncHandler(async (req, res) => {
-  const pesanan = await Pesanan.find({})
+  const pesanan = await Pesanan.find({}).populate(
+    'pembeli',
+    'namaPembeli',
+    'emailPembeli',
+    'avatar'
+  )
   res.json(pesanan)
 })
 
@@ -110,10 +116,12 @@ const buktiBayar = asyncHandler(async (req, res) => {
     if (urls) {
       // let body = req.body;
       let pengguna = await Akun.findById(req.user._id).select('-password')
+      const pesan = await Pesanan.findOne({ pembeli: pengguna })
       // let bodyw = _.extend(body, { pengguna: pengguna }, { gambar: urls });
 
       let bukti = new Bukti({
         pengguna: pengguna,
+        pesanan: pesan,
         nama: pengguna.nama,
         email: pengguna.email,
         bukti: req.body.bukti,
@@ -135,6 +143,23 @@ const buktiBayar = asyncHandler(async (req, res) => {
   }
 })
 
+const cariBukti = asyncHandler(async (req, res) => {
+  const bukti = await Bukti.find({ pesanan: req.params.id })
+
+  if (bukti) {
+    res.json(bukti)
+    res.status(201)
+  } else {
+    res.status(404)
+    throw new Error('Bukti tidak ditemukan')
+  }
+})
+
+const seluruhBukti = asyncHandler(async (req, res) => {
+  const bukti = await Bukti.find({})
+  res.json(bukti)
+})
+
 module.exports = {
   tambahPesanan,
   detailPesanan,
@@ -143,4 +168,6 @@ module.exports = {
   pesananSaya,
   seluruhPesanan,
   buktiBayar,
+  cariBukti,
+  seluruhBukti,
 }

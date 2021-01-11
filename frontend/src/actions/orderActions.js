@@ -19,6 +19,12 @@ import {
   ORDER_DELIVER_FAIL,
   ORDER_DELIVER_SUCCESS,
   ORDER_DELIVER_REQUEST,
+  ORDER_RECEIPT_REQUEST,
+  ORDER_RECEIPT_SUCCESS,
+  ORDER_RECEIPT_FAIL,
+  ORDER_GET_RECEIPT_REQUEST,
+  ORDER_GET_RECEIPT_SUCCESS,
+  ORDER_GET_RECEIPT_FAIL,
 } from '../constants/orderConstants'
 import { logout } from './userActions'
 
@@ -280,6 +286,84 @@ export const listOrders = () => async (dispatch, getState) => {
     }
     dispatch({
       type: ORDER_LIST_FAIL,
+      payload: message,
+    })
+  }
+}
+
+export const sendReceipt = (bukti) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_RECEIPT_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.post(
+      `/api/order/kirim-bukti`,
+      { bukti },
+      config
+    )
+
+    dispatch({
+      type: ORDER_RECEIPT_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: ORDER_RECEIPT_FAIL,
+      payload: message,
+    })
+  }
+}
+
+export const getReceipt = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ORDER_GET_RECEIPT_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.get(`/api/order/bukti/${id}`, config)
+
+    dispatch({
+      type: ORDER_GET_RECEIPT_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    if (message === 'Not authorized, token failed') {
+      dispatch(logout())
+    }
+    dispatch({
+      type: ORDER_GET_RECEIPT_FAIL,
       payload: message,
     })
   }

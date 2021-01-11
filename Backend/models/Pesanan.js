@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const pesananSchema = mongoose.Schema(
   {
     pembeli: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "Akun",
+      ref: 'Akun',
     },
     namaPembeli: {
       type: String,
@@ -42,7 +42,7 @@ const pesananSchema = mongoose.Schema(
         produk: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
-          ref: "Produk",
+          ref: 'Produk',
         },
       },
     ],
@@ -104,8 +104,12 @@ const pesananSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
+    buktiBayar: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Bukti',
+    },
   },
   { timestamps: true }
-);
+)
 
-module.exports = mongoose.model("Pesanan", pesananSchema, "Pesanan");
+module.exports = mongoose.model('Pesanan', pesananSchema, 'Pesanan')
