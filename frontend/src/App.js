@@ -9,6 +9,7 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import PaymentScreen from './screens/PaymentScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import ProductListScreen from './screens/ProductListScreen'
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/shipping' component={ShippingScreen}></Route>
         <Route path='/payment' component={PaymentScreen}></Route>
         <Route path='/place-order' component={PlaceOrderScreen}></Route>
+        <Route path='/product-list' component={ProductListScreen}></Route>
         <Route path='/profile' component={ProfileScreen}></Route>
       </Switch>
     </Router>

@@ -67,9 +67,9 @@ const CartScreen = ({ match, location, history }) => {
         </Navbar.Collapse>
         <Nav className='justify-content-end'>
           {userInfo && userInfo.admin && (
-            <NavLink className='cart' href='/AddProduct'>
+            <NavLink className='cart' href='/product-lis'>
               <FaStore className='mb-1 mr-2' />
-              ADD PRODUCT
+              Daftar Produk
             </NavLink>
           )}
           <NavLink className='cart' href='/cart'>
