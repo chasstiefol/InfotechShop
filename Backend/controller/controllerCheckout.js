@@ -3,6 +3,7 @@ const Cart = require("../models/KeranjangBelanja");
 const asyncHandler = require("express-async-handler");
 const Akun = require("../models/Akun");
 const Pesanan = require("../models/Pesanan");
+const Bukti = require("../models/BuktiBayar");
 const uuid = require("uuid");
 
 const tambahPesanan = asyncHandler(async (req, res) => {
@@ -105,6 +106,48 @@ const seluruhPesanan = asyncHandler(async (req, res) => {
   res.json(pesanan);
 });
 
+const buktiBayar = asyncHandler(async (req, res) => {
+  // const files = req.files
+  //gambar
+  try {
+    let urls = [];
+    // let berkas = async (path) => await upload(path)
+    // for (const file of files) {
+    //   const { path } = file
+    //   console.log('path', file)
+
+    //   const newPath = await berkas(path)
+    //   urls.push(newPath)
+    //   fs.unlinkSync(path)
+
+    if (urls) {
+      // let body = req.body;
+      let pengguna = await Akun.findById(req.user._id).select("-password");
+      // let bodyw = _.extend(body, { pengguna: pengguna }, { gambar: urls });
+
+      let bukti = new Bukti({
+        pengguna: pengguna,
+        nama: pengguna.nama,
+        email: pengguna.email,
+        bukti: req.body.bukti,
+        tanggalBayar: Date.now,
+      });
+      await bukti
+        .save()
+        .then((saved) => {
+          return res.json(saved);
+        })
+        .catch((error) => {
+          return res.json(error);
+        });
+    }
+  } catch (error) {
+    res.status(400);
+    console.log("error: ", error);
+    return next(error);
+  }
+});
+
 module.exports = {
   tambahPesanan,
   detailPesanan,
@@ -112,4 +155,5 @@ module.exports = {
   updatePesananDikirim,
   pesananSaya,
   seluruhPesanan,
+  buktiBayar,
 };

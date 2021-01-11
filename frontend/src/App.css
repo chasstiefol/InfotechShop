@@ -186,3 +186,65 @@ ListGroup {
   border-radius: 5px;
   border: 3px solid black;
 }
+
+.edit-profile {
+  border: 2px solid black;
+  background-color: rgb(214, 214, 214);
+  border-radius: 10px;
+}
+
+.btn-edit {
+  background-color: #36506b !important;
+  text-decoration: none !important;
+  border: none;
+}
+
+.btn-edit:hover,
+.btn-edit:link,
+.btn-edit:active {
+  background-color: #6493c5 !important;
+  border: none;
+}
+
+.order-screen {
+  border: 2px solid white;
+  border-radius: 10px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.body-order {
+  background-color: white;
+}
+
+.order-content {
+  border-radius: 10px;
+  border: 2px solid #3a96ff;
+  background-color: white;
+}
+
+.profile-screen {
+  background-color: white;
+  border: 2px solid black;
+  border-radius: 5px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  color: black;
+}
+
+.product-list {
+  background-color: white;
+  border-radius: 5px;
+  border: 2px solid blue;
+}
+
+.product-head {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.button-product-list {
+  border: none;
+}
+
+.product-edit {
+  border: 2px solid white !important;
+  border-radius: 10px !important;
+}

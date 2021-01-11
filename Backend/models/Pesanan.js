@@ -88,14 +88,16 @@ const pesananSchema = mongoose.Schema(
       default: false,
     },
     tanggalBayar: {
-      type: Date,
+      type: String,
+      default: Date,
     },
     sudahDikirim: {
       type: Boolean,
       default: false,
     },
-    tanggalDikirim: {
-      type: Date,
+    tanggalBayar: {
+      type: String,
+      default: Date,
     },
     kodePembayaran: {
       type: String,
