@@ -51,13 +51,13 @@ router.post('/bukti', upload.single('bukti'), async (req, res) => {
   }
 })
 
-router.route('/').post(pelindung, tambahPesanan).get(admin, seluruhPesanan)
+router.route('/').post(pelindung, tambahPesanan).get(pelindung, admin, seluruhPesanan)
 router.route('/:id').get(pelindung, admin, detailPesanan)
-router.route('/:id/bayar').put(admin, updatePesananDibayar)
-router.route('/:id/dikirim').put(admin, updatePesananDikirim)
+router.route('/:id/bayar').put(pelindung, admin, updatePesananDibayar)
+router.route('/:id/dikirim').put(pelindung, admin, updatePesananDikirim)
 router.route('/pesanan-saya/:id').get(pelindung, pesananSaya)
-router.route('/bukti').get(admin, seluruhBukti)
+router.route('/bukti').get(pelindung, admin, seluruhBukti)
 router.route('/kirim-bukti/:id').post(pelindung, buktiBayar)
-router.route('/bukti/:id').get(admin, cariBukti)
+router.route('/bukti/:id').get(pelindung, admin, cariBukti)
 
 module.exports = router
