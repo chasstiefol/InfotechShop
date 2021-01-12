@@ -48,10 +48,10 @@ router.post('/upload', upload.single('gambar'), async (req, res) => {
     throw new Error(error)
   }
 })
-router.post('/tambah-produk', pelindung, tambahProduk)
+router.post('/tambah-produk', admin, tambahProduk)
 router.route('/').get(tampilkanSeluruhProduk)
 router.route('/:id').get(tampilkanSatuProduk).delete(hapusProduk)
 router.route('/:id/reviews').post(pelindung, tambahReview)
-router.route('/:id/reviews/:review_id').delete(pelindung, hapusReview)
+router.route('/:id/reviews/:review_id').delete(admin, hapusReview)
 
 module.exports = router
