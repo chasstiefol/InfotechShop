@@ -27,4 +27,13 @@ const pelindung = asyncHandler(async (req, res, next) => {
   }
 });
 
-module.exports = { pelindung };
+const admin = (req, res, next) => {
+  if (req.user && req.user.admin) {
+    next()
+  } else {
+    res.status(401)
+    throw new Error('Anda bukan Admin')
+  }
+}
+
+module.exports = { pelindung, admin };

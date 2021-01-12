@@ -11,7 +11,7 @@ const {
   cariBukti,
   seluruhBukti,
 } = require('../controller/controllerCheckout')
-const { pelindung } = require('../middleware/validasi')
+const { pelindung, admin } = require('../middleware/validasi')
 const cloudinary = require('cloudinary').v2
 const multer = require('multer')
 
@@ -51,13 +51,13 @@ router.post('/bukti', upload.single('bukti'), async (req, res) => {
   }
 })
 
-router.route('/').post(pelindung, tambahPesanan).get(pelindung, seluruhPesanan)
-router.route('/:id').get(pelindung, detailPesanan)
-router.route('/:id/bayar').put(updatePesananDibayar)
-router.route('/:id/dikirim').put(updatePesananDikirim)
+router.route('/').post(pelindung, tambahPesanan).get(pelindung, admin, seluruhPesanan)
+router.route('/:id').get(pelindung, admin, detailPesanan)
+router.route('/:id/bayar').put(pelindung, admin, updatePesananDibayar)
+router.route('/:id/dikirim').put(pelindung, admin, updatePesananDikirim)
 router.route('/pesanan-saya/:id').get(pelindung, pesananSaya)
-router.route('/bukti').get(seluruhBukti)
+router.route('/bukti').get(pelindung, admin, seluruhBukti)
 router.route('/kirim-bukti/:id').post(pelindung, buktiBayar)
-router.route('/bukti/:id').get(cariBukti)
+router.route('/bukti/:id').get(pelindung, admin, cariBukti)
 
 module.exports = router

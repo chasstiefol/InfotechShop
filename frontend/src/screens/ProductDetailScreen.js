@@ -17,6 +17,7 @@ import { listProductDetails } from '../actions/productActions'
 import { addToCart } from '../actions/cartActions'
 import Loader from '../Component/Loader'
 import Rating from '../Component/Rating'
+import Review from '../Component/Review'
 import { BsSearch, BsBag, BsFillPersonFill } from 'react-icons/bs'
 import { FaStore } from 'react-icons/fa'
 
@@ -130,11 +131,24 @@ const ProductDetailScreen = ({ match, history }) => {
               </p>
             </Col>
           </Row>
+          {userInfo && (
+            <Row className='p-4' style={{ maxWidth: '100%' }}>
+              <h4
+                className='font-weight-bold pl-4'
+                style={{ color: '#364f6d' }}
+              >
+                Berikan Review
+              </h4>
+              <Review productId={match.params.id} />
+            </Row>
+          )}
+
           <Row className='p-4' style={{ maxWidth: '100%' }}>
             <Col>
               <h4 className='font-weight-bold' style={{ color: '#364f6d' }}>
                 Review
               </h4>
+
               {product.reviews && product.reviews.length === 0 ? (
                 <h4>Tidak ada Review</h4>
               ) : (
@@ -148,7 +162,7 @@ const ProductDetailScreen = ({ match, history }) => {
                       </span>
                     </Col>
                     <Col sm={10} className='p-3'>
-                      <Rating value={1} color='yellow' />
+                      <Rating value={Number(review.rating)} color='yellow' />
                       <p className='font-weight-bold'>{review.review}</p>
                     </Col>
                   </Row>

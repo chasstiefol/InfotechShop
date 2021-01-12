@@ -9,7 +9,7 @@ const {
   tambahReview,
   hapusReview,
 } = require('../controller/controllerProduk')
-const { pelindung } = require('../middleware/validasi')
+const { pelindung, admin } = require('../middleware/validasi')
 const cloudinary = require('cloudinary').v2
 const { uploads } = require('../helper/helper')
 
@@ -48,10 +48,10 @@ router.post('/upload', upload.single('gambar'), async (req, res) => {
     throw new Error(error)
   }
 })
-router.post('/tambah-produk', pelindung, tambahProduk)
+router.route('/tambah-produk').post(pelindung, admin, tambahProduk)
 router.route('/').get(tampilkanSeluruhProduk)
-router.route('/:id').get(tampilkanSatuProduk).delete(hapusProduk)
+router.route('/:id').get(tampilkanSatuProduk).delete(pelindung, admin, hapusProduk)
 router.route('/:id/reviews').post(pelindung, tambahReview)
-router.route('/:id/reviews/:review_id').delete(pelindung, hapusReview)
+router.route('/:id/reviews/:review_id').delete(pelindung, admin, hapusReview)
 
 module.exports = router
