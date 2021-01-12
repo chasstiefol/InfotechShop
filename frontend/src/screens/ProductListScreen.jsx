@@ -14,7 +14,7 @@ import Loader from '../Component/Loader'
 import { listProducts, deleteProduct } from '../actions/productActions'
 import { logout } from '../actions/userActions'
 import { BsFillPersonFill, BsBag, BsSearch } from 'react-icons/bs'
-import { FaStore, FaPlus } from 'react-icons/fa'
+import { FaStore, FaPlus, FaTrash } from 'react-icons/fa'
 import ListLink from '../Component/ListLink'
 import '../App.css'
 
@@ -131,7 +131,7 @@ const ProductListScreen = ({ history, match }) => {
                     <th>HARGA</th>
                     <th>KATEGORI</th>
                     <th>MEREK</th>
-                    <th>EDIT</th>
+                    <th>HAPUS</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -147,17 +147,12 @@ const ProductListScreen = ({ history, match }) => {
                         style={{ display: 'flex' }}
                       >
                         <td className='mx-auto'>
-                          <LinkContainer to={`/admin/product/product-edit`}>
-                            <Button variant='light' className='btn-sm '>
-                              <i className='fas fa-edit'></i>
-                            </Button>
-                          </LinkContainer>
                           <Button
                             variant='danger'
                             className='btn-sm'
                             onClick={() => deleteHandler(product._id)}
                           >
-                            <i className='fas fa-trash'></i>
+                            <FaTrash className='mb-1' />
                           </Button>
                         </td>
                       </div>

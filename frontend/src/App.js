@@ -12,6 +12,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import OrderScreen from './screens/OrderScreen'
 import OrderListScreen from './screens/OrderListScreen'
+import UserListScreen from './screens/UserListScreen'
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='/profile' component={ProfileScreen}></Route>
         <Route path='/order/:id' component={OrderScreen}></Route>
         <Route path='/order-list' component={OrderListScreen}></Route>
+        <Route path='/user-list' component={UserListScreen}></Route>
       </Switch>
     </Router>
   )

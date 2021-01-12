@@ -1,11 +1,21 @@
 import React, { useEffect } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+import {
+  Table,
+  Button,
+  Navbar,
+  NavLink,
+  Form,
+  FormControl,
+  Nav,
+} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
+import Message from '../Component/Message'
+import Loader from '../Component/Loader'
+import ListLink from '../Component/ListLink'
 import '../App.css'
-import { listUsers, deleteUser } from '../actions/userActions'
+import { listUsers, deleteUser, logout } from '../actions/userActions'
+import { BsFillPersonFill, BsBag, BsSearch } from 'react-icons/bs'
+import { FaStore, FaTrash, FaCheck, FaTimes } from 'react-icons/fa'
 
 const UserListScreen = ({ history }) => {
   const dispatch = useDispatch()
@@ -20,9 +30,9 @@ const UserListScreen = ({ history }) => {
   const { success: successDelete } = userDelete
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
+    if (userInfo && userInfo.admin) {
       dispatch(listUsers())
-    } 
+    }
     // else {
     //   history.push('/login')
     // }
@@ -34,59 +44,105 @@ const UserListScreen = ({ history }) => {
     }
   }
 
+  const logoutHandler = () => {
+    dispatch(logout())
+    history.push('/')
+  }
+
   return (
     <>
-    <div className="userlist-page m-3 p-3">
-      <h1 className="text-black text-center font-weight-bold mb-3">Pengguna</h1>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-        <Table striped bordered hover responsive className='table-sm'>
-          <thead className="table-danger table-bordered text-center">
-            <tr>
-              <th>ID</th>
-              <th>NAMA</th>
-              <th>EMAIL</th>
-              <th>ADMIN</th>
-              <th>HAPUS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <td>{user._id}</td>
-                <td>{user.name}</td>
-                <td>
-                  <a href={`mailto:${user.email}`}>{user.email}</a>
-                </td>
-                <td>
-                  {user.isAdmin ? (
-                    <i className='fas fa-check' style={{ color: 'green' }}></i>
-                  ) : (
-                    <i className='fas fa-times' style={{ color: 'red' }}></i>
-                  )}
-                </td>
-                <td>
-                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                    <Button variant='light' className='btn-sm'>
-                      <i className='fas fa-edit'></i>
-                    </Button>
-                  </LinkContainer>
-                  <Button
-                    variant='danger'
-                    className='btn-sm'
-                    onClick={() => deleteHandler(user._id)}
-                  >
-                    <i className='fas fa-trash'></i>
-                  </Button>
-                </td>
+      <Navbar className='navbar-content-home' variant='dark'>
+        <NavLink className='home' href='/'>
+          InfoTech Shop
+        </NavLink>
+        <Navbar.Collapse className='justify-content-center'>
+          <Form inline>
+            <FormControl
+              type='text'
+              placeholder='Search..'
+              className='form-control'
+            />
+            <Button variant='outline-light'>
+              <BsSearch />
+            </Button>
+          </Form>
+        </Navbar.Collapse>
+        <Nav className='justify-content-end'>
+          {userInfo && userInfo.admin && (
+            <NavLink className='cart' href='/product-list'>
+              <FaStore className='mb-1 mr-2' />
+              Daftar Produk
+            </NavLink>
+          )}
+          <NavLink className='cart' href='/cart'>
+            <BsBag className='mb-1 mr-2' />
+            CART
+          </NavLink>
+          {userInfo ? (
+            <>
+              <NavLink className='cart' href='/profile'>
+                <BsFillPersonFill className='mb-1 mr-2' />
+                {userInfo.nama}
+              </NavLink>
+              <Nav.Item as={NavLink} onClick={logoutHandler} className='cart'>
+                LOGOUT
+              </Nav.Item>
+            </>
+          ) : (
+            <NavLink className='cart' href='/Signup'>
+              <BsFillPersonFill className='mb-1 mr-2' />
+              SIGNUP
+            </NavLink>
+          )}
+        </Nav>
+      </Navbar>
+      <div className='userlist-page m-3 p-3'>
+        <ListLink />
+        <h1 className='text-black text-center font-weight-bold mb-3'>
+          Pengguna
+        </h1>
+        {loading ? (
+          <Loader />
+        ) : error ? (
+          <Message variant='danger'>{error}</Message>
+        ) : (
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead className='table-danger table-bordered text-center'>
+              <tr>
+                <th>ID</th>
+                <th>NAMA</th>
+                <th>EMAIL</th>
+                <th>ADMIN</th>
+                <th>HAPUS</th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      )}
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user._id}</td>
+                  <td>{user.nama}</td>
+                  <td>{user.email}</td>
+                  <td className='text-center'>
+                    {user.admin ? (
+                      <FaCheck className='mb-1' style={{ color: 'green' }} />
+                    ) : (
+                      <FaTimes className='mb-1' style={{ color: 'red' }} />
+                    )}
+                  </td>
+                  <td className='text-center'>
+                    <Button
+                      variant='danger'
+                      className='btn-sm'
+                      onClick={() => deleteHandler(user._id)}
+                    >
+                      <FaTrash className='mb-1' />
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
       </div>
     </>
   )

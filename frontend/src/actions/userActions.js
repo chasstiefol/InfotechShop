@@ -153,3 +153,45 @@ export const updateProfil = (nama, email) => async (dispatch, getState) => {
     })
   }
 }
+
+export const listUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_LIST_REQUEST })
+
+    const { data } = await axios.get('/api/user/pengguna')
+
+    dispatch({
+      type: USER_LIST_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+export const deleteUser = (userId) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_DELETE_REQUEST })
+
+    const { data } = await axios.delete(`/api/user/hapus/${userId}`)
+
+    dispatch({
+      type: USER_DELETE_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: USER_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}

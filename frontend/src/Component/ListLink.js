@@ -16,7 +16,13 @@ const ListLink = () => {
             <h5>Daftar Pesanan</h5>
           </Link>
         </Col>
+        <Col className='text-center'>
+          <Link to='/user-list'>
+            <h5>Daftar Pengguna</h5>
+          </Link>
+        </Col>
       </Row>
+      <hr />
     </>
   )
 }
