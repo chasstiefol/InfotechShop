@@ -28,7 +28,7 @@ const pelindung = asyncHandler(async (req, res, next) => {
 });
 
 const admin = (req, res, next) => {
-  if (req.user && req.user.Admin) {
+  if (req.user && req.user.admin) {
     next()
   } else {
     res.status(401)
