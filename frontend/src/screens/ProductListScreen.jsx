@@ -14,7 +14,8 @@ import Loader from '../Component/Loader'
 import { listProducts, deleteProduct } from '../actions/productActions'
 import { logout } from '../actions/userActions'
 import { BsFillPersonFill, BsBag, BsSearch } from 'react-icons/bs'
-import { FaStore } from 'react-icons/fa'
+import { FaStore, FaPlus } from 'react-icons/fa'
+import ListLink from '../Component/ListLink'
 import '../App.css'
 
 const ProductListScreen = ({ history, match }) => {
@@ -97,12 +98,17 @@ const ProductListScreen = ({ history, match }) => {
       </Navbar>
       <body className='m-0'>
         <div className='container product-list mt-5'>
+          <ListLink />
+
           <h1 className='text-center font-weight-bold product-head my-3'>
             Daftar Produk
           </h1>
           <LinkContainer to='/AddProduct'>
-            <Button className='my-3 ml-auto' variant='secondary'>
-              <i className='fas fa-plus'></i> Tambah Produk
+            <Button
+              className='my-3 ml-auto text-white font-weight-bold'
+              variant='primary'
+            >
+              <FaPlus className='mb-1' /> Tambah Produk
             </Button>
           </LinkContainer>
           {loading ? (

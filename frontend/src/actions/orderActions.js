@@ -128,10 +128,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
   }
 }
 
-export const payOrder = (orderId, paymentResult) => async (
-  dispatch,
-  getState
-) => {
+export const payOrder = (orderId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_PAY_REQUEST,
@@ -143,16 +140,11 @@ export const payOrder = (orderId, paymentResult) => async (
 
     const config = {
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
-    const { data } = await axios.put(
-      `/api/orders/${orderId}/pay`,
-      paymentResult,
-      config
-    )
+    const { data } = await axios.put(`/api/order/${orderId}/bayar`, config)
 
     dispatch({
       type: ORDER_PAY_SUCCESS,
@@ -173,7 +165,7 @@ export const payOrder = (orderId, paymentResult) => async (
   }
 }
 
-export const deliverOrder = (order) => async (dispatch, getState) => {
+export const deliverOrder = (orderId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_DELIVER_REQUEST,
@@ -185,12 +177,12 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
     const { data } = await axios.put(
-      `/api/orders/${order._id}/deliver`,
+      `/api/order/${orderId}/dikirim`,
       {},
       config
     )
@@ -266,11 +258,11 @@ export const listOrders = () => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`,
+        authorization: `Bearer ${userInfo.token}`,
       },
     }
 
-    const { data } = await axios.get(`/api/orders`, config)
+    const { data } = await axios.get(`/api/order`, config)
 
     dispatch({
       type: ORDER_LIST_SUCCESS,
@@ -291,7 +283,7 @@ export const listOrders = () => async (dispatch, getState) => {
   }
 }
 
-export const sendReceipt = (bukti) => async (dispatch, getState) => {
+export const sendReceipt = (bukti, orderId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_RECEIPT_REQUEST,
@@ -308,7 +300,7 @@ export const sendReceipt = (bukti) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.post(
-      `/api/order/kirim-bukti`,
+      `/api/order/kirim-bukti/${orderId}`,
       { bukti },
       config
     )

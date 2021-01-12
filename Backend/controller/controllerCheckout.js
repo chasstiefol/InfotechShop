@@ -40,7 +40,7 @@ const tambahPesanan = asyncHandler(async (req, res) => {
     })
 
     const buatPesanan = order.save()
-    res.status(201).json(buatPesanan)
+    res.status(201).json(order)
   }
 })
 
@@ -90,12 +90,7 @@ const pesananSaya = asyncHandler(async (req, res) => {
 })
 
 const seluruhPesanan = asyncHandler(async (req, res) => {
-  const pesanan = await Pesanan.find({}).populate(
-    'pembeli',
-    'namaPembeli',
-    'emailPembeli',
-    'avatar'
-  )
+  const pesanan = await Pesanan.find({})
   res.json(pesanan)
 })
 
@@ -116,10 +111,10 @@ const buktiBayar = asyncHandler(async (req, res) => {
     if (urls) {
       // let body = req.body;
       let pengguna = await Akun.findById(req.user._id).select('-password')
-      const pesan = await Pesanan.findOne({ pembeli: pengguna })
+      const pesan = await Pesanan.findById(req.params.id)
       // let bodyw = _.extend(body, { pengguna: pengguna }, { gambar: urls });
 
-      let bukti = new Bukti({
+      let bukti = await Bukti.create({
         pengguna: pengguna,
         pesanan: pesan,
         nama: pengguna.nama,

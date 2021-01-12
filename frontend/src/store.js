@@ -22,6 +22,9 @@ import {
   orderDetailsReducer,
   orderReceiptReducer,
   orderGetReceiptReducer,
+  orderListReducer,
+  orderPayReducer,
+  orderDeliverReducer,
 } from './reducers/orderReducers'
 import { cartReducer } from './reducers/cartReducers'
 
@@ -39,6 +42,9 @@ const reducer = combineReducers({
   productDelete: productDeleteReducer,
   orderCreate: orderCreateReducer,
   orderListMy: orderListMyReducer,
+  orderList: orderListReducer,
+  orderPay: orderPayReducer,
+  orderDeliver: orderDeliverReducer,
   orderDetails: orderDetailsReducer,
   orderReceipt: orderReceiptReducer,
   orderGetReceipt: orderGetReceiptReducer,

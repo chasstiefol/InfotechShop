@@ -104,10 +104,12 @@ const pesananSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    buktiBayar: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Bukti',
-    },
+    buktiBayar: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Bukti',
+      },
+    ],
   },
   { timestamps: true }
 )

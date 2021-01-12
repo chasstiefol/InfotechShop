@@ -140,7 +140,7 @@ const CartScreen = ({ match, location, history }) => {
                         as='select'
                         value={parseInt(item.qty)}
                         onChange={(e) =>
-                          dispatch(addToCart(item._id, e.target.value))
+                          dispatch(addToCart(item.produk, e.target.value))
                         }
                       >
                         {[...Array(item.jumlahStok).keys()].map((x) => (

@@ -225,7 +225,7 @@ const ProfileScreen = ({ location, history }) => {
                       )}
                     </td>
                     <td>Rp. {order.totalPembayaran}</td>
-                    <td>
+                    <td className='text-center'>
                       {!order.sudahBayar ? (
                         <Badge variant='danger'>Belum dibayar</Badge>
                       ) : order.sudahDikirim ? (
@@ -234,7 +234,7 @@ const ProfileScreen = ({ location, history }) => {
                         <Badge variant='success'>Sudah dibayar</Badge>
                       )}
                     </td>
-                    <td>
+                    <td className='text-center'>
                       <LinkContainer to={`/order/${order._id}`}>
                         <Button className='btn-sm' variant='secondary'>
                           Lihat Detail

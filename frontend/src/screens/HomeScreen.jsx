@@ -12,6 +12,7 @@ import {
   Button,
   NavLink,
   Image,
+  NavDropdown,
 } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import '../App.css'
@@ -72,9 +73,10 @@ const Signup = () => {
             {userInfo ? (
               <>
                 <NavLink className='cart' href='/profile'>
-                  <BsFillPersonFill className='mb-1 mr-2' />
+                  <BsFillPersonFill className='mb-1' />
                   {userInfo.nama}
                 </NavLink>
+
                 <Nav.Item as={NavLink} onClick={logoutHandler} className='cart'>
                   LOGOUT
                 </Nav.Item>

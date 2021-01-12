@@ -46,14 +46,13 @@ const PlaceOrderScreen = ({ history }) => {
   const orderCreate = useSelector((state) => state.orderCreate)
   const { order, success, error } = orderCreate
 
-  // useEffect(() => {
-  //   if (success) {
-  //     history.push(`/order/${order._id}`)
-  //     dispatch({ type: USER_DETAILS_RESET })
-  //     dispatch({ type: ORDER_CREATE_RESET })
-  //   }
-  //   // eslint-disable-next-line
-  // }, [history, success])
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`)
+      dispatch({ type: USER_DETAILS_RESET })
+      dispatch({ type: ORDER_CREATE_RESET })
+    }
+  }, [history, success])
 
   const placeOrderHandler = () => {
     dispatch(
@@ -66,7 +65,6 @@ const PlaceOrderScreen = ({ history }) => {
         hargaBarang + 3000
       )
     )
-    history.push('/profile')
   }
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -133,17 +131,24 @@ const PlaceOrderScreen = ({ history }) => {
                 Data Pembelian
               </h2>
               <h5 className='text-dark font-weight-bold'>Pengiriman</h5>
-              <p>
+              <p className='pl-3'>
+                <strong>Nama Penerima:</strong>{' '}
+                {cart.shippingAddress.namaPenerima}
+              </p>
+              <p className='pl-3'>
                 <div>
-                  Alamat: {cart.shippingAddress.address},{' '}
-                  {cart.shippingAddress.kecamatan}, {cart.shippingAddress.city},{' '}
-                  {cart.shippingAddress.postalCode},{' '}
-                  {cart.shippingAddress.provinsi}
+                  <strong>Alamat</strong>: {cart.shippingAddress.alamat},{' '}
+                  {cart.shippingAddress.kelurahan},{' '}
+                  {cart.shippingAddress.kecamatan},{' '}
+                  {cart.shippingAddress.kabupaten},{' '}
+                  {cart.shippingAddress.kodepos}
                 </div>
               </p>
 
               <h5 className='text-dark font-weight-bold'>Pembayaran</h5>
-              <div>Metode: {cart.paymentMethod}</div>
+              <div className='pl-3'>
+                <strong>Metode:</strong> {cart.paymentMethod}
+              </div>
               <h5 className='text-dark font-weight-bold mt-3 mb-3'>
                 Barang yang akan Dibeli
               </h5>

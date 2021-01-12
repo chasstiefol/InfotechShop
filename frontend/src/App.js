@@ -11,6 +11,7 @@ import PaymentScreen from './screens/PaymentScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ProductListScreen from './screens/ProductListScreen'
 import OrderScreen from './screens/OrderScreen'
+import OrderListScreen from './screens/OrderListScreen'
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/product-list' component={ProductListScreen}></Route>
         <Route path='/profile' component={ProfileScreen}></Route>
         <Route path='/order/:id' component={OrderScreen}></Route>
+        <Route path='/order-list' component={OrderListScreen}></Route>
       </Switch>
     </Router>
   )

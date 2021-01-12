@@ -15,6 +15,7 @@ import {
   FormControl,
   Nav,
   Form,
+  Alert,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../Component/Message'
@@ -58,11 +59,23 @@ const OrderScreen = ({ match, history }) => {
     dispatch(getReceipt(match.params.id))
   }, [dispatch, orderId, match])
 
-  // const orderPay = useSelector((state) => state.orderPay)
-  // const { loading: loadingPay, success: successPay } = orderPay
+  const orderPay = useSelector((state) => state.orderPay)
 
-  // const orderDeliver = useSelector((state) => state.orderDeliver)
-  // const { loading: loadingDeliver, success: successDeliver } = orderDeliver
+  const payHandler = () => {
+    if (window.confirm('Apakah anda yakin ingin mengubah status pembayaran?')) {
+      dispatch(payOrder(orderId))
+      history.go(0)
+    }
+  }
+
+  const orderDeliver = useSelector((state) => state.orderDeliver)
+
+  const deliverHandler = () => {
+    if (window.confirm('Apakah anda yakin ingin mengubah status pengiriman?')) {
+      dispatch(deliverOrder(orderId))
+      history.go(0)
+    }
+  }
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -129,18 +142,23 @@ const OrderScreen = ({ match, history }) => {
     setUploading(false)
   }
 
+  const orderReceipt = useSelector((state) => state.orderReceipt)
+  const { success: successSendReceipt } = orderReceipt
+
+  useEffect(() => {
+    if (successSendReceipt) {
+      alert('Bukti pembayaran berhasil dikirim')
+    }
+  }, [successSendReceipt])
+
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(sendReceipt(image))
+    dispatch(sendReceipt(image, orderId))
   }
 
   const successPaymentHandler = (paymentResult) => {
     console.log(paymentResult)
     dispatch(payOrder(orderId, paymentResult))
-  }
-
-  const deliverHandler = () => {
-    dispatch(deliverOrder(order))
   }
 
   const logoutHandler = () => {
@@ -235,6 +253,16 @@ const OrderScreen = ({ match, history }) => {
                       <Badge variant='secondary'>Belum dikirim</Badge>
                     )}
                   </p>
+                  {userInfo.admin && !order.sudahDikirim && (
+                    <Button
+                      className='ml-5'
+                      onClick={deliverHandler}
+                      variant='primary'
+                      size='sm'
+                    >
+                      Ubah status pengiriman
+                    </Button>
+                  )}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -260,6 +288,16 @@ const OrderScreen = ({ match, history }) => {
                       <Badge variant='danger'>Belum dibayar</Badge>
                     )}
                   </p>
+                  {userInfo.admin && !order.sudahBayar && (
+                    <Button
+                      className='ml-5'
+                      onClick={payHandler}
+                      variant='success'
+                      size='sm'
+                    >
+                      Ubah status pembayaran
+                    </Button>
+                  )}
                 </ListGroup.Item>
 
                 <ListGroup.Item>
@@ -321,27 +359,45 @@ const OrderScreen = ({ match, history }) => {
                 <Col>Total: </Col>
                 <Col>Rp. {order.totalPembayaran}</Col>
               </Row>
-              <Row className='pl-4'>
-                <Form onSubmit={submitHandler}>
-                  <Form.Group>
-                    <Form.Label>Upload Bukti Pembayaran</Form.Label>
-                    <Form.File onChange={(e) => uploadHandler(e)} />
-                    {uploading ? (
-                      <Loader />
-                    ) : (
-                      image && (
-                        <Image
-                          src={image}
-                          className='mt-3'
-                          style={{ width: '7rem' }}
-                        />
-                      )
-                    )}
-                    <Button className='mt-4 d-block' type='submit'>
-                      Submit
+              <Row className='px-4'>
+                {userInfo.admin && receipt.length > 0 ? (
+                  <a
+                    className='mx-auto py-3'
+                    target='blank'
+                    href={receipt[receipt.length - 1].bukti[0]}
+                  >
+                    <Button variant='info' size='sm'>
+                      Lihat bukti pembayaran
                     </Button>
-                  </Form.Group>
-                </Form>
+                  </a>
+                ) : userInfo.admin && receipt.length === 0 ? (
+                  <Alert className='mx-auto' variant='danger'>
+                    Belum ada bukti pembayaran
+                  </Alert>
+                ) : (
+                  !order.sudahBayar && (
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group>
+                        <Form.Label>Upload Bukti Pembayaran</Form.Label>
+                        <Form.File onChange={(e) => uploadHandler(e)} />
+                        {uploading ? (
+                          <Loader />
+                        ) : (
+                          image && (
+                            <Image
+                              src={image}
+                              className='mt-3'
+                              style={{ width: '7rem' }}
+                            />
+                          )
+                        )}
+                        <Button className='mt-4 d-block' type='submit'>
+                          Submit
+                        </Button>
+                      </Form.Group>
+                    </Form>
+                  )
+                )}
               </Row>
               {/* {!order.isPaid && (
                 <ListGroup.Item>
