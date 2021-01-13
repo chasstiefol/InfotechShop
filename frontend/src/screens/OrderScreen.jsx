@@ -304,7 +304,7 @@ const OrderScreen = ({ match, history }) => {
                   <h2 className='text-center text-dark mt-3 mb-5'>
                     Daftar Barang
                   </h2>
-                  {order.barangPesanan.length === 0 ? (
+                  {order.barangPesanan && order.barangPesanan.length === 0 ? (
                     <Message>Order is empty</Message>
                   ) : (
                     <ListGroup variant='flush'>
@@ -360,7 +360,7 @@ const OrderScreen = ({ match, history }) => {
                 <Col>Rp. {order.totalPembayaran}</Col>
               </Row>
               <Row className='px-4'>
-                {userInfo.admin && receipt.length > 0 ? (
+                {userInfo.admin && receipt && receipt.length > 0 ? (
                   <a
                     className='mx-auto py-3'
                     target='blank'
@@ -370,7 +370,7 @@ const OrderScreen = ({ match, history }) => {
                       Lihat bukti pembayaran
                     </Button>
                   </a>
-                ) : userInfo.admin && receipt.length === 0 ? (
+                ) : userInfo.admin && receipt && receipt.length === 0 ? (
                   <Alert className='mx-auto' variant='danger'>
                     Belum ada bukti pembayaran
                   </Alert>
