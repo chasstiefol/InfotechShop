@@ -224,182 +224,183 @@ const OrderScreen = ({ match, history }) => {
               </h2>
             </Col>
           </Row>
-          <Row className='my-3'>
-            <Col md={8}>
-              <ListGroup variant='flush' className='order-content'>
-                <ListGroup.Item>
-                  <h2 className='text-center text-dark my-1'>Pengiriman</h2>
-                  <p>
-                    <BsFillPersonFill size='20px' className='m-0' />
-                    <strong className='m-2'>Nama: </strong>
-                    {order.namaPembeli}
-                  </p>
-                  <p>
-                    <MdEmail size='20px' className='m-0' />
-                    <strong className='m-2'>Email: </strong>{' '}
-                    {order.emailPembeli}
-                  </p>
-                  <p>
-                    <FiMapPin size='20px' className='m-0' />
-                    <strong className='m-2'>Alamat: </strong>
-                    {`${order.alamatPengiriman.alamat}, ${order.alamatPengiriman.kelurahan}, ${order.alamatPengiriman.kecamatan}, ${order.alamatPengiriman.kabupaten}`}
-                  </p>
-                  <p>
-                    <MdLocalShipping size='20px' className='m-0' />
-                    <strong className='m-2'>Status Pengiriman: </strong>
-                    {order.sudahDikirim ? (
-                      <Badge variant='primary'>Sudah dikirim</Badge>
-                    ) : (
-                      <Badge variant='secondary'>Belum dikirim</Badge>
+          {order && (
+            <Row className='my-3'>
+              <Col md={8}>
+                <ListGroup variant='flush' className='order-content'>
+                  <ListGroup.Item>
+                    <h2 className='text-center text-dark my-1'>Pengiriman</h2>
+                    <p>
+                      <BsFillPersonFill size='20px' className='m-0' />
+                      <strong className='m-2'>Nama: </strong>
+                      {order.namaPembeli}
+                    </p>
+                    <p>
+                      <MdEmail size='20px' className='m-0' />
+                      <strong className='m-2'>Email: </strong>{' '}
+                      {order.emailPembeli}
+                    </p>
+                    <p>
+                      <FiMapPin size='20px' className='m-0' />
+                      <strong className='m-2'>Alamat: </strong>
+                      {`${order.alamatPengiriman.alamat}, ${order.alamatPengiriman.kelurahan}, ${order.alamatPengiriman.kecamatan}, ${order.alamatPengiriman.kabupaten}`}
+                    </p>
+                    <p>
+                      <MdLocalShipping size='20px' className='m-0' />
+                      <strong className='m-2'>Status Pengiriman: </strong>
+                      {order.sudahDikirim ? (
+                        <Badge variant='primary'>Sudah dikirim</Badge>
+                      ) : (
+                        <Badge variant='secondary'>Belum dikirim</Badge>
+                      )}
+                    </p>
+                    {userInfo.admin && !order.sudahDikirim && (
+                      <Button
+                        className='ml-5'
+                        onClick={deliverHandler}
+                        variant='primary'
+                        size='sm'
+                      >
+                        Ubah status pengiriman
+                      </Button>
                     )}
-                  </p>
-                  {userInfo.admin && !order.sudahDikirim && (
-                    <Button
-                      className='ml-5'
-                      onClick={deliverHandler}
-                      variant='primary'
-                      size='sm'
-                    >
-                      Ubah status pengiriman
-                    </Button>
-                  )}
-                </ListGroup.Item>
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <h2 className='text-center text-dark mt-3 mb-5'>
-                    Metode Pembayaran
-                  </h2>
-                  <p>
-                    <MdPayment size='20px' className='m-0' />
-                    <strong className='m-2'>Metode: </strong>
-                    {order.metodePembayaran}
-                  </p>
-                  <p>
-                    <MdPayment size='20px' className='m-0' />
-                    <strong className='m-2'>Kode Pembayaran: </strong>
-                    {order.kodePembayaran.split('u')[0]}
-                  </p>
-                  <p>
-                    <MdPayment size='20px' className='m-0' />
-                    <strong className='m-2'>Status Pembayaran: </strong>
-                    {order.sudahBayar ? (
-                      <Badge variant='success'>Sudah dibayar</Badge>
-                    ) : (
-                      <Badge variant='danger'>Belum dibayar</Badge>
+                  <ListGroup.Item>
+                    <h2 className='text-center text-dark mt-3 mb-5'>
+                      Metode Pembayaran
+                    </h2>
+                    <p>
+                      <MdPayment size='20px' className='m-0' />
+                      <strong className='m-2'>Metode: </strong>
+                      {order.metodePembayaran}
+                    </p>
+                    <p>
+                      <MdPayment size='20px' className='m-0' />
+                      <strong className='m-2'>Kode Pembayaran: </strong>
+                      {order.kodePembayaran.split('u')[0]}
+                    </p>
+                    <p>
+                      <MdPayment size='20px' className='m-0' />
+                      <strong className='m-2'>Status Pembayaran: </strong>
+                      {order.sudahBayar ? (
+                        <Badge variant='success'>Sudah dibayar</Badge>
+                      ) : (
+                        <Badge variant='danger'>Belum dibayar</Badge>
+                      )}
+                    </p>
+                    {userInfo.admin && !order.sudahBayar && (
+                      <Button
+                        className='ml-5'
+                        onClick={payHandler}
+                        variant='success'
+                        size='sm'
+                      >
+                        Ubah status pembayaran
+                      </Button>
                     )}
-                  </p>
-                  {userInfo.admin && !order.sudahBayar && (
-                    <Button
-                      className='ml-5'
-                      onClick={payHandler}
-                      variant='success'
-                      size='sm'
-                    >
-                      Ubah status pembayaran
-                    </Button>
-                  )}
-                </ListGroup.Item>
+                  </ListGroup.Item>
 
-                <ListGroup.Item>
-                  <h2 className='text-center text-dark mt-3 mb-5'>
-                    Daftar Barang
-                  </h2>
-                  {order.barangPesanan && order.barangPesanan.length === 0 ? (
-                    <Message>Order is empty</Message>
+                  <ListGroup.Item>
+                    <h2 className='text-center text-dark mt-3 mb-5'>
+                      Daftar Barang
+                    </h2>
+                    {order.barangPesanan && order.barangPesanan.length === 0 ? (
+                      <Message>Order is empty</Message>
+                    ) : (
+                      <ListGroup variant='flush'>
+                        {order.barangPesanan.map((item, index) => (
+                          <ListGroup.Item key={index}>
+                            <Row>
+                              <Col md={1}>
+                                <Image
+                                  src={item.gambar}
+                                  alt={item.namaProduk}
+                                  fluid
+                                  rounded
+                                />
+                              </Col>
+                              <Col>
+                                <Link to={`/product`}>{item.namaProduk}</Link>
+                              </Col>
+                              <Col md={4}>
+                                {item.qty} x Rp. {item.harga} = Rp.{' '}
+                                {item.qty * item.harga}
+                              </Col>
+                            </Row>
+                          </ListGroup.Item>
+                        ))}
+                      </ListGroup>
+                    )}
+                  </ListGroup.Item>
+                </ListGroup>
+              </Col>
+              <Col md={4} className='my-auto order-content'>
+                <h2 className='text-center text-dark mt-3 mb-4'>
+                  Total Pembayaran
+                </h2>
+                <Row className='my-4 ml-0'>
+                  <AiFillShopping className='mt-1 ml-2' />
+                  <Col>Barang: </Col>
+                  <Col>
+                    Rp.{' '}
+                    {order.barangPesanan.reduce(
+                      (acc, cur) => acc + cur.qty * cur.harga,
+                      0
+                    )}
+                  </Col>
+                </Row>
+                <Row className='my-4 ml-0'>
+                  <MdLocalShipping className='mt-1 ml-2' />
+                  <Col>Pengiriman: </Col>
+                  <Col>Rp. {order.ongkir}</Col>
+                </Row>
+                <Row className='my-4 ml-0'>
+                  <ImPriceTag className='mt-1 ml-2' />
+                  <Col>Total: </Col>
+                  <Col>Rp. {order.totalPembayaran}</Col>
+                </Row>
+                <Row className='px-4'>
+                  {userInfo.admin && receipt && receipt.length > 0 ? (
+                    <a
+                      className='mx-auto py-3'
+                      target='blank'
+                      href={receipt[receipt.length - 1].bukti[0]}
+                    >
+                      <Button variant='info' size='sm'>
+                        Lihat bukti pembayaran
+                      </Button>
+                    </a>
+                  ) : userInfo.admin && receipt && receipt.length === 0 ? (
+                    <Alert className='mx-auto' variant='danger'>
+                      Belum ada bukti pembayaran
+                    </Alert>
                   ) : (
-                    <ListGroup variant='flush'>
-                      {order.barangPesanan.map((item, index) => (
-                        <ListGroup.Item key={index}>
-                          <Row>
-                            <Col md={1}>
+                    !order.sudahBayar && (
+                      <Form onSubmit={submitHandler}>
+                        <Form.Group>
+                          <Form.Label>Upload Bukti Pembayaran</Form.Label>
+                          <Form.File onChange={(e) => uploadHandler(e)} />
+                          {uploading ? (
+                            <Loader />
+                          ) : (
+                            image && (
                               <Image
-                                src={item.gambar}
-                                alt={item.namaProduk}
-                                fluid
-                                rounded
+                                src={image}
+                                className='mt-3'
+                                style={{ width: '7rem' }}
                               />
-                            </Col>
-                            <Col>
-                              <Link to={`/product`}>{item.namaProduk}</Link>
-                            </Col>
-                            <Col md={4}>
-                              {item.qty} x Rp. {item.harga} = Rp.{' '}
-                              {item.qty * item.harga}
-                            </Col>
-                          </Row>
-                        </ListGroup.Item>
-                      ))}
-                    </ListGroup>
+                            )
+                          )}
+                          <Button className='mt-4 d-block' type='submit'>
+                            Submit
+                          </Button>
+                        </Form.Group>
+                      </Form>
+                    )
                   )}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={4} className='my-auto order-content'>
-              <h2 className='text-center text-dark mt-3 mb-4'>
-                Total Pembayaran
-              </h2>
-              <Row className='my-4 ml-0'>
-                <AiFillShopping className='mt-1 ml-2' />
-                <Col>Barang: </Col>
-                <Col>
-                  Rp.{' '}
-                  {order.barangPesanan.reduce(
-                    (acc, cur) => acc + cur.qty * cur.harga,
-                    0
-                  )}
-                </Col>
-              </Row>
-              <Row className='my-4 ml-0'>
-                <MdLocalShipping className='mt-1 ml-2' />
-                <Col>Pengiriman: </Col>
-                <Col>Rp. {order.ongkir}</Col>
-              </Row>
-              <Row className='my-4 ml-0'>
-                <ImPriceTag className='mt-1 ml-2' />
-                <Col>Total: </Col>
-                <Col>Rp. {order.totalPembayaran}</Col>
-              </Row>
-              <Row className='px-4'>
-                {userInfo.admin && receipt && receipt.length > 0 ? (
-                  <a
-                    className='mx-auto py-3'
-                    target='blank'
-                    href={receipt[receipt.length - 1].bukti[0]}
-                  >
-                    <Button variant='info' size='sm'>
-                      Lihat bukti pembayaran
-                    </Button>
-                  </a>
-                ) : userInfo.admin && receipt && receipt.length === 0 ? (
-                  <Alert className='mx-auto' variant='danger'>
-                    Belum ada bukti pembayaran
-                  </Alert>
-                ) : (
-                  !order.sudahBayar && (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group>
-                        <Form.Label>Upload Bukti Pembayaran</Form.Label>
-                        <Form.File onChange={(e) => uploadHandler(e)} />
-                        {uploading ? (
-                          <Loader />
-                        ) : (
-                          image && (
-                            <Image
-                              src={image}
-                              className='mt-3'
-                              style={{ width: '7rem' }}
-                            />
-                          )
-                        )}
-                        <Button className='mt-4 d-block' type='submit'>
-                          Submit
-                        </Button>
-                      </Form.Group>
-                    </Form>
-                  )
-                )}
-              </Row>
-              {/* {!order.isPaid && (
+                </Row>
+                {/* {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
                   {!sdkReady ? (
@@ -411,8 +412,8 @@ const OrderScreen = ({ match, history }) => {
                     />
                   )}
                 </ListGroup.Item> */}
-              {/* )} */}
-              {/* {loadingDeliver && <Loader />}
+                {/* )} */}
+                {/* {loadingDeliver && <Loader />}
             {userInfo &&
               userInfo.isAdmin &&
               order.isPaid &&
@@ -425,8 +426,9 @@ const OrderScreen = ({ match, history }) => {
                   Mark As Delivered
                 </Button>
               )} */}
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          )}
         </div>
       )}
     </Container>

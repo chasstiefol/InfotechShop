@@ -94,7 +94,7 @@ const CartScreen = ({ match, location, history }) => {
           )}
         </Nav>
       </Navbar>
-      <h1 className='text-center font-weight-bold mb-3 text-white'>
+      <h1 className='text-center font-weight-bold mb-3 text-dark'>
         Shopping Cart
       </h1>
       {cartItems.length === 0 ? (
