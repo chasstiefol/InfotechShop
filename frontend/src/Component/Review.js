@@ -18,7 +18,6 @@ const Review = ({ productId }) => {
   const { success } = productReviewCreate
 
   const submitHandler = (e) => {
-    e.preventDefault()
     dispatch(createProductReview(productId, review, value))
   }
 
